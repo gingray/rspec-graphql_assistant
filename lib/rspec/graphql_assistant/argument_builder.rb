@@ -1,18 +1,14 @@
 module RSpec
   module GraphqlAssistant
     class ArgumentBuilder
-      attr_reader :arguments_arr
+      attr_reader :arguments_hash
 
-      def initialize(arguments_arr)
-        @arguments_arr = arguments_arr
+      def initialize(arguments_hash)
+        @arguments_hash = arguments_hash
       end
 
       def call
-        result = []
-        arguments_arr.each do |arg|
-          result << process_root(arg)
-        end
-        result.join ', '
+        process_hash(arguments_hash)
       end
 
       private
@@ -20,12 +16,12 @@ module RSpec
       def process_root(arg)
         return process_hash(arg) if arg.is_a?(Hash)
         return process_array(arg) if arg.is_a?(Array)
-        process_string_or_symbol(arg) if arg.is_a?(Symbol) || arg.is_a?(String)
+        process_scalar(arg) if arg.is_a?(Symbol) || arg.is_a?(String) || arg.is_a?(Numeric)
       end
 
-      def process_string_or_symbol(arg)
-        arg = arg.to_s.camelize(:lower) if arg.is_a?(Symbol)
-        "#{arg}: $#{arg}"
+      def process_scalar(arg)
+        arg = "\"#{arg}\"" if arg.is_a?(Symbol) || arg.is_a?(String)
+        arg
       end
 
       def process_array(arg)
@@ -33,18 +29,27 @@ module RSpec
         arg.each do |item|
           result << process_root(item)
         end
-        result.join(', ')
+        line = result.map { |item| "{#{item}}"}.join(', ')
       end
 
       def process_hash(arg)
-        result = ''
+        result = []
         arg.each do |k, v|
           arg_name = k
           arg_name = k.to_s.camelize(:lower) if k.is_a?(Symbol)
-          arg_value = process_root(v)
-          result << "#{arg_name}: { #{arg_value} }"
+          if is_scalar?(v)
+            result << "#{arg_name}: #{process_scalar(v)}"
+          elsif v.is_a?(Array)
+            result << "#{arg_name}: [ #{process_root(v)} ]"
+          else
+            result << "#{arg_name}: { #{process_root(v)} }"
+          end
         end
-        result
+        result.join(', ')
+      end
+
+      def is_scalar?(arg)
+        arg.is_a?(Symbol) || arg.is_a?(String) || arg.is_a?(Numeric)
       end
     end
   end

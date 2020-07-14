@@ -1,19 +1,28 @@
 RSpec.describe RSpec::GraphqlAssistant::ArgumentBuilder do
   context 'case 1' do
-    let(:args) { [{input: [:user_id, :user_type]}] }
+    let(:args) { {id: 1, name: 'test', content: 'content'} }
     let(:argument_builder) { RSpec::GraphqlAssistant::ArgumentBuilder.new(args) }
 
     it 'succeeds' do
-      expect(argument_builder.call).to eq 'input: { userId: $userId, userType: $userType }'
+      expect(argument_builder.call).to eq 'id: 1, name: "test", content: "content"'
     end
   end
 
-  context 'case 2', focus: true do
-    let(:args) { [:id, :name, :content] }
+  context 'case 2' do
+    let(:args) { {input:{ name: 'test', content: 'content'}} }
     let(:argument_builder) { RSpec::GraphqlAssistant::ArgumentBuilder.new(args) }
 
     it 'succeeds' do
-      expect(argument_builder.call).to eq '{ id: $id, name: $name, content: $content }'
+      expect(argument_builder.call).to eq 'input: { name: "test", content: "content" }'
+    end
+  end
+
+  context 'case 3' do
+    let(:args) { {input: [{name: 'test', content: 'content'}, {name: 'test', content: 'content'}]} }
+    let(:argument_builder) { RSpec::GraphqlAssistant::ArgumentBuilder.new(args) }
+
+    it 'succeeds' do
+      expect(argument_builder.call).to eq 'input: [ {name: "test", content: "content"}, {name: "test", content: "content"} ]'
     end
   end
 end
