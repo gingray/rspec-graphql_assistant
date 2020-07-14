@@ -6,8 +6,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Ivan Lopatin"]
   spec.email         = ["gingray.dev@gmail.com"]
 
-  spec.summary       = %q{RSpec assistant}
-  spec.description   = %q{RSpec assistant}
+  spec.summary       = %q{Collection of RSpec helpers to easy test GraphQL query, mutation, subscription}
+  spec.description   = %q{Collection of RSpec helpers to easy test GraphQL query, mutation, subscription}
   spec.homepage      = "https://github.com/gingray/rspec-graphql_assistant"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
