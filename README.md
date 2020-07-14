@@ -20,6 +20,12 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
+RSpec.configure do |config|
+  config.include RSpec::GraphqlAssistant::Helpers
+end
+```
+
+```ruby
 graphql_mutation('updatePost', { post_id: 1, content: "some test" }, [:id, :content])
 ```
 
@@ -33,6 +39,7 @@ mutation {
 }
 
 ```
+
 
 Work in progress and now only supports inline syntax. Which means without passing variables. Later try to cover both cases
 Cheers
