@@ -39,7 +39,15 @@ mutation {
 }
 
 ```
+Examples of query and subscription
+```ruby
+args = {post_id: 1}
+response = [:id, :name]
 
+graphql_query('queryName', args, response)
+
+graphql_subscription('subscriptionName', args, response)
+```
 
 Work in progress and now only supports inline syntax. Which means without passing variables. Later try to cover both cases
 Cheers
