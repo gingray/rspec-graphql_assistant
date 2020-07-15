@@ -17,7 +17,8 @@ module RSpec
       private
 
       def transform_args(args)
-        ArgumentBuilder.new(args).call
+        return if args.blank?
+        "(#{ArgumentBuilder.new(args).call})"
       end
 
       def transform_response(response)
@@ -30,7 +31,7 @@ module RSpec
       def template
         <<-GQL
 %{type} {
- %{name}(%{args}) {
+ %{name}%{args} {
   %{response}
  }
 }
