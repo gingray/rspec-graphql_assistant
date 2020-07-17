@@ -1,4 +1,6 @@
 require "rspec/graphql_assistant/version"
+require "rspec/core"
+require "rspec/expectations"
 require 'active_support'
 require 'active_support/core_ext'
 require 'rspec/graphql_assistant/matchers'
