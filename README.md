@@ -26,7 +26,7 @@ end
 ```
 
 ```ruby
-graphql_mutation('updatePost', { post_id: 1, content: "some test" }, [:id, :content])
+graphql_mutation('updatePost', { post_id: 1, content: "some test" }, [:id, author: [:name]])
 ```
 
 produce this one query
@@ -34,7 +34,8 @@ produce this one query
 mutation {
   updatePost(input: {postId: 1, content: "some text"}) {
     id
-    content
+    author {
+      name
   }
 }
 
@@ -49,7 +50,21 @@ graphql_query('queryName', args, response)
 graphql_subscription('subscriptionName', args, response)
 ```
 
-Work in progress and now only supports inline syntax. Which means without passing variables. Later try to cover both cases
+## Matchers
+```ruby
+expect(result).to graphql_have_attributes([:book, :author_reviews], { score: 10 })
+```
+it's equivalent to `expect(result.dig('data', 'book', 'authorReviews')).to have_attributes({'score' => 10})`
+
+```ruby
+expect(result).to graphql_include(:book, %w[id title])
+```
+
+it's equivalent to `expect(result.dig('data', 'book')).to include('id', 'title')`
+
+Work in progress and now only supports inline syntax. Which means without passing variables. Later try to cover both cases.  
+I'm still working on documentation if you want to help me be appreciated 
+
 Cheers
 
 ## Contributing

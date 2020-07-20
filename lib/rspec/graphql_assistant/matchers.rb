@@ -1,11 +1,11 @@
 module RSpec
   module Matchers
-    def has_graphql_attrs(key, expected)
-      RSpec::GraphqlAssistant::HasAttrs.new(key, expected)
+    def graphql_include(key, expected)
+      RSpec::GraphqlAssistant::Matchers::Include.new(key, expected)
     end
 
-    def contain_graphql_attrs(key, expected)
-      RSpec::GraphqlAssistant::ContainAttrs.new(key, expected)
+    def graphql_have_attributes(key, expected)
+      RSpec::GraphqlAssistant::Matchers::HaveAttributes.new(key, expected)
     end
   end
 end
