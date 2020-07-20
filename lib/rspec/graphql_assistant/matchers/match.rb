@@ -1,7 +1,7 @@
 module RSpec
   module GraphqlAssistant
     module Matchers
-      class HaveAttributes
+      class Match
         include MatcherHelper
 
         attr_reader :sample, :expected, :key, :root
@@ -14,26 +14,16 @@ module RSpec
 
         def matches?(actual)
           value = lookup_value(actual)
-          return expected_hash(value, expected) if expected.is_a?(Hash)
 
-          false
-        end
-
-        def expected_hash(value, expected)
-          res = true
-          expected.each do |k, v|
-            res = value[k] == v
-            break unless res
-          end
-          res
+          value == expected
         end
 
         def failure_message
-          "'#{key}' not equal attributes '#{expected}'"
+          "'#{key}' not match '#{expected}'"
         end
 
         def description
-          "'#{key}' has attributes '#{expected}'"
+          "'#{key}' match '#{expected}'"
         end
       end
     end
