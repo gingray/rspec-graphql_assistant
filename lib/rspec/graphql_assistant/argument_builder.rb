@@ -20,7 +20,8 @@ module RSpec
       end
 
       def process_scalar(arg)
-        "\"#{arg}\""
+        arg = "\"#{arg}\"" if arg.is_a?(Symbol) || arg.is_a?(String)
+        arg
       end
 
       def process_array(arg)
