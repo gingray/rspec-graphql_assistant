@@ -49,7 +49,7 @@ module RSpec
       end
 
       def is_scalar?(arg)
-        arg.is_a?(Symbol) || arg.is_a?(String) || arg.is_a?(Numeric)
+        arg.is_a?(Symbol) || arg.is_a?(String) || arg.is_a?(Numeric) || [true, false].include?(arg)
       end
     end
   end
