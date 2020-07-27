@@ -29,7 +29,7 @@ module RSpec
         arg.each do |item|
           result << process_root(item)
         end
-        line = result.map { |item| "{#{item}}"}.join(', ')
+        result.map { |item| "{#{item}}"}.join(', ')
       end
 
       def process_hash(arg)
@@ -49,7 +49,11 @@ module RSpec
       end
 
       def is_scalar?(arg)
-        arg.is_a?(Symbol) || arg.is_a?(String) || arg.is_a?(Numeric)
+        arg.is_a?(Symbol) ||
+          arg.is_a?(String) ||
+          arg.is_a?(Numeric) ||
+          [true, false].include?(arg) ||
+          %w[date time].include?(arg.class.to_s.downcase)
       end
     end
   end

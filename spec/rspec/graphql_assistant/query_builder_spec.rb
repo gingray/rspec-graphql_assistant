@@ -1,6 +1,6 @@
 RSpec.describe RSpec::GraphqlAssistant::QueryBuilder do
   let(:name) { :users }
-  let(:args) { {input:{ name: 'test', content: 'content'}} }
+  let(:args) { {input:{ name: 'test', content: 'content', boolValue: true}} }
   let(:response) { [:id] }
   let(:query_builder) { RSpec::GraphqlAssistant::QueryBuilder.new(:mutation ,name, args, response) }
 
@@ -8,7 +8,7 @@ RSpec.describe RSpec::GraphqlAssistant::QueryBuilder do
     it 'succeeds' do
       val = <<~GQL
 mutation {
- users(input: { name: "test", content: "content" }) {
+ users(input: { name: "test", content: "content", boolValue: true }) {
   id
  }
 }
